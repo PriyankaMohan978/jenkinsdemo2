@@ -1,33 +1,20 @@
-pipeline {
-    agent any
+node{
+    try{
+    stage('checkout code'){
+        checkout scm
 
-    environment {
-        PYTHON = 'C:\\Users\\priya\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
     }
-
-    stages {
-        stage('checkout code') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('extract data') {
-            steps {
-                bat "${env.PYTHON} extractdata.py"
-            }
-        }
+    stage('extract data'){
+        
+        bat 'C:\\Users\\priya\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
     }
+    }
+    catch(err){
 
-    post {
-        success {
-            echo "success...."
-        }
-        failure {
-            echo "failure....."
-        }
-        always {
-            echo "always....."
-        }
+        echo "pipeline error: ${err}"
+
+    }
+    finally {
+        echo "pipeline completed"
     }
 }
